@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const { errorHandler } = require('./src/middleware/errorHandler');
+const { initDb } = require('./scripts/initDb');
 
 const app = express();
 
@@ -27,7 +28,17 @@ app.get('/',       (req, res) => res.json({ message: 'TaskForge API is running',
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`TaskForge API running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+
+(async () => {
+  try {
+    await initDb();
+  } catch (err) {
+    console.error('❌ Database initialization failed. Aborting startup.');
+    process.exit(1);
+  }
+
+  app.listen(PORT, () => {
+    console.log(`TaskForge API running on port ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  });
+})();
