@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { font-feature-settings: "cv11", "ss01", "ss03"; }
+
+  body {
+    @apply bg-ink-50 text-ink-800 dark:bg-ink-950 dark:text-ink-100 antialiased;
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+    letter-spacing: -0.02em;
+  }
+
+  *::-webkit-scrollbar { width: 8px; height: 8px; }
+  *::-webkit-scrollbar-track { @apply bg-transparent; }
+  *::-webkit-scrollbar-thumb { @apply bg-ink-200 dark:bg-ink-700 rounded-full; }
+  *::-webkit-scrollbar-thumb:hover { @apply bg-ink-300 dark:bg-ink-600; }
+
+  /* Smooth focus rings */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-forge-500 ring-offset-2 ring-offset-white dark:ring-offset-ink-900;
+  }
+  input:focus-visible, select:focus-visible, textarea:focus-visible { @apply ring-0 ring-offset-0; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-ink-900 hover:bg-ink-800 dark:bg-forge-500 dark:hover:bg-forge-600 text-white text-sm font-semibold rounded-lg shadow-soft transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white dark:bg-ink-800 hover:bg-ink-50 dark:hover:bg-ink-700 text-ink-700 dark:text-ink-200 text-sm font-medium rounded-lg border border-ink-200 dark:border-ink-700 transition-colors;
+  }
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-forge-500 hover:bg-forge-600 text-white text-sm font-semibold rounded-lg shadow-soft transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .card {
+    @apply bg-white dark:bg-ink-900 rounded-xl border border-ink-200 dark:border-ink-800 shadow-card;
+  }
+  .input {
+    @apply w-full px-3.5 py-2.5 bg-white dark:bg-ink-800/60 border border-ink-200 dark:border-ink-700 rounded-lg text-sm text-ink-900 dark:text-white placeholder:text-ink-400 focus:outline-none focus:border-forge-500 focus:ring-2 focus:ring-forge-500/20 transition;
+  }
+  .label {
+    @apply block text-xs font-semibold uppercase tracking-wider text-ink-600 dark:text-ink-400 mb-1.5;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-medium;
+  }
+}
+
+@layer utilities {
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(15,23,42,0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(15,23,42,0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .dark .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  }
+}
