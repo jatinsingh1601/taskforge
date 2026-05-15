@@ -3,14 +3,14 @@
  * Reads server/src/db/schema.sql and runs it against DATABASE_URL.
  *
  * Use locally:   node scripts/initDb.js
- * On Railway:    add to a deploy command, or run the SQL manually in psql.
+ * Imported by:   index.js (runs automatically on every server start)
  */
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const { Pool } = require('pg');
 
-(async () => {
+async function initDb() {
   const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
@@ -23,8 +23,15 @@ const { Pool } = require('pg');
     console.log('✅ Schema applied successfully.');
   } catch (err) {
     console.error('❌ Failed to apply schema:', err.message);
-    process.exit(1);
+    throw err;
   } finally {
     await pool.end();
   }
-})();
+}
+
+module.exports = { initDb };
+
+// Allow running directly: node scripts/initDb.js
+if (require.main === module) {
+  initDb().catch(() => process.exit(1));
+}
